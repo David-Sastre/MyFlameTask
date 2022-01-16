@@ -16,16 +16,19 @@ import java.awt.Dimension;
 public class Flame extends BufferedImage implements Runnable {
 
     BufferedImage imagen = null;
+    private String imgfile;
     private int[][] matriz;
     private FlamePalette flamePalette;
     private boolean isRunning = true;
     private boolean isBlizzard = false;
-    private int SPARKS = 200;
-    private int COOL = 85;
-    private double increment = 0.0;
+    private int SPARKS = 50;
+    private int COOL = 55;
+    private double increment = 0.9;
+    private long speed = 70;
     private int imageType;
+    
+//Getters & Setters
 
-    //Getters & Setter
     public boolean isIsRunning() {
         return isRunning;
     }
@@ -58,6 +61,15 @@ public class Flame extends BufferedImage implements Runnable {
         this.COOL = COOL;
     }
 
+    public long getSpeed() {
+        return speed;
+    }
+
+    public void setSpeed(long speed) {
+        this.speed = speed;
+    }
+    
+    //Métodos
     public Flame(int width, int height, int imageType) {
         super(width, height, imageType);
         this.imageType = imageType;
@@ -77,7 +89,7 @@ public class Flame extends BufferedImage implements Runnable {
     public void createSparks() {
         System.out.println("Se crean las chispas");
         for (int i = 0; i < matriz.length; i++) {
-            int aux = (int) (Math.random() * 200);
+            int aux = (int) (Math.random() * 300);
             if (aux <= SPARKS) {
                 matriz[i][matriz[0].length - 1] = 255;
             }
@@ -89,14 +101,14 @@ public class Flame extends BufferedImage implements Runnable {
         System.out.println("Se crean los puntos frios");
         if (!isBlizzard) {
             for (int i = 0; i < matriz.length; i++) {
-                int aux = (int) (Math.random() * 200);
+                int aux = (int) (Math.random() * 300);
                 if (aux <= COOL) {
                     matriz[i][matriz[0].length - 1] = 0;
                 }
             }
         } else {
             for (int j = 0; j < matriz[0].length - 2; j++) {
-                int aux = (int) (Math.random() * 200);
+                int aux = (int) (Math.random() * 800);
                 if (aux <= COOL) {
                     matriz[j][matriz[0].length - 1] = 0;
                 }
@@ -110,9 +122,9 @@ public class Flame extends BufferedImage implements Runnable {
             System.out.println("Evolución del fuego");
             for (int j = matriz[0].length - 2; j >= 0; j--) {
                 for (int i = 1; i < matriz.length - 1; i++) {
-                    matriz[i][j] = (int) ((matriz[i][j + 1] + matriz[i + 1][j + 1]
+                    matriz[i][j] = (int) (((matriz[i][j + 1] + matriz[i + 1][j + 1]
                             + matriz[i - 1][j + 1] + matriz[i - 1][j] + matriz[i + 1][j]
-                            + matriz[i][j]) / 6 - increment);
+                            + matriz[i][j]) / 6) + increment);
                 }
             }
         } else {
@@ -140,7 +152,7 @@ public class Flame extends BufferedImage implements Runnable {
     public void run() {
         while (true) {
             try {
-                Thread.sleep(70);
+                Thread.sleep(speed);
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }

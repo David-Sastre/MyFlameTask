@@ -22,15 +22,20 @@ import javax.imageio.ImageIO;
  * @author David
  */
 public class Viewer extends Canvas implements Runnable{
-    private BufferedImage imagen;
+    private BufferedImage imagenfondo;
+    private String imgfile;
+    private String aux = "'";
     Flame flame;
+    
     
 
     //Constructor Viewer
     public Viewer (Flame flame){
+      
         //
         try{
-        imagen = ImageIO.read(new File("src/flametask/Chimenea.jpg"));
+        System.out.println(imgfile);    
+        imagenfondo = ImageIO.read(new File(aux+imgfile+aux));
         }catch(IOException e){
         System.out.println("Error al cargar la Imagen");
         }
@@ -40,9 +45,15 @@ public class Viewer extends Canvas implements Runnable{
         fuego.start();
         
     }
-    //Creamos el método Paint
     
-    public void paint(){
+    //Setter Imgfile
+    
+    public void setImgfile(String imgfile){
+        this.imgfile = imgfile;
+    } 
+
+    //Creamos el método Paint
+    public void paint() {
         BufferStrategy bs = this.getBufferStrategy();
         Graphics g = bs.getDrawGraphics();
         if (bs==null){
@@ -52,7 +63,7 @@ public class Viewer extends Canvas implements Runnable{
             return;
         }
         //System.out.println("Se pinta la chimenea");
-        //g.drawImage(imagen,0,0,null);
+        g.drawImage(imagenfondo,0,0,null);
         //System.out.println("Pintamos el fugo");
         //g.drawImage(fl,130,194,213,175,null);
         g.drawImage(flame,0,0,this.getWidth(),this.getHeight(),null);
