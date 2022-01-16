@@ -11,6 +11,7 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
+import javax.swing.BorderFactory;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 
@@ -37,7 +38,7 @@ public class MyFlame extends JFrame{
     public MyFlame (){
         //Indicamos el nombre de la ventana
         super("Fuego");
-        flame = new Flame (800,800,1);
+        flame = new Flame (600,600,1);
         crearEstructura();
         //Iniciamos el hilo.
         thread = new Thread(viewer);
@@ -51,12 +52,12 @@ public class MyFlame extends JFrame{
         this.setLayout(new GridBagLayout());
   
         //creamos el control panel
-        controlPanel = new ControlPanel(this);
+        controlPanel = new ControlPanel(this, viewer);
         //añadimos la altura y ancho minimo
-        controlPanel.setMinimumSize(new Dimension(300,100));
-        controlPanel.setPreferredSize(new Dimension(300,100));
-        controlPanel.setMaximumSize(new Dimension(300, 100));
-
+        controlPanel.setMinimumSize(new Dimension(400,100));
+        controlPanel.setPreferredSize(new Dimension(400,100));
+        controlPanel.setMaximumSize(new Dimension(400, 100));
+        controlPanel.setBorder(BorderFactory.createLineBorder(Color.WHITE,5));
         //y lo añadimos al layout
         GridBagConstraints gbc = new GridBagConstraints();
         gbc.fill = GridBagConstraints.BOTH;
@@ -75,7 +76,7 @@ public class MyFlame extends JFrame{
         this.add(viewer, gbc);
         
         //Indicamos las medidas del JFrame
-        this.setSize(800,800);
+        this.setSize(1000,800);
         this.setLocationRelativeTo(null);
         //Hacemos visible el JFrame
         this.setVisible(true);
@@ -107,6 +108,18 @@ public class MyFlame extends JFrame{
     
     public void blizzard (){
         flame.setIsBlizzard(true);
+    }
+    
+    public void notBlizzard (){
+        flame.setIsBlizzard(false);
+    }
+    
+    public void setSpeed(long speed){
+        flame.setSpeed(speed);
+    }
+    
+    public long getSpeed(){
+        return flame.getSpeed();
     }
 }
 
