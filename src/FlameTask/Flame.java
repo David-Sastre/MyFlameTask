@@ -16,7 +16,6 @@ import java.awt.Dimension;
 public class Flame extends BufferedImage implements Runnable {
 
     BufferedImage imagen = null;
-    private String imgfile;
     private int[][] matriz;
     private FlamePalette flamePalette;
     private boolean isRunning = true;
@@ -28,6 +27,7 @@ public class Flame extends BufferedImage implements Runnable {
     private int imageType;
     
 //Getters & Setters
+    
 
     public boolean isIsRunning() {
         return isRunning;
@@ -88,32 +88,41 @@ public class Flame extends BufferedImage implements Runnable {
     //Creamos las Sparks
     public void createSparks() {
         System.out.println("Se crean las chispas");
-        for (int i = 0; i < matriz.length; i++) {
-            int aux = (int) (Math.random() * 300);
-            if (aux <= SPARKS) {
-                matriz[i][matriz[0].length - 1] = 255;
+//        if(!isBlizzard){
+            for (int i = 0; i < matriz.length; i++) {
+                int aux = (int) (Math.random() * 400);
+                if (aux <= SPARKS) {
+                    matriz[i][matriz[0].length - 1] = 255;
+                }
             }
-        }
+//        }else {
+//            for (int i = 0; i < matriz[0].length - 2; i++) {
+//                int aux = (int) (Math.random() * 300);
+//                if (aux <= SPARKS) {
+//                    matriz[i][matriz[0].length-1] = 255;
+//                }
+//            }
+//        }
     }
 
     //Creamos los puntos fríos
     public void createCool() {
         System.out.println("Se crean los puntos frios");
-        if (!isBlizzard) {
+//        if (!isBlizzard) {
             for (int i = 0; i < matriz.length; i++) {
-                int aux = (int) (Math.random() * 300);
+                int aux = (int) (Math.random() * 400);
                 if (aux <= COOL) {
                     matriz[i][matriz[0].length - 1] = 0;
                 }
             }
-        } else {
-            for (int j = 0; j < matriz[0].length - 2; j++) {
-                int aux = (int) (Math.random() * 800);
-                if (aux <= COOL) {
-                    matriz[j][matriz[0].length - 1] = 0;
-                }
-            }
-        }
+//        } else {
+//            for (int i = 0; i < matriz.length-1; i++) {
+//                int aux = (int) (Math.random() * 300);
+//                if (aux <= COOL) {
+//                    matriz[i][matriz[0].length - 1] = 0;
+//                }
+//            }
+//        }
     }
 
     //EvolveTemperature

@@ -7,15 +7,14 @@ package FlameTask;
 
 import java.awt.Canvas;
 import java.awt.Color;
-import java.awt.Dimension;
 import java.awt.Graphics;
-import java.util.List;
 import java.awt.image.BufferStrategy;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
-import java.util.ArrayList;
 import javax.imageio.ImageIO;
+import javax.swing.JFileChooser;
+
 
 /**
  *
@@ -23,8 +22,6 @@ import javax.imageio.ImageIO;
  */
 public class Viewer extends Canvas implements Runnable{
     private BufferedImage imagenfondo;
-    private String imgfile;
-    private String aux = "'";
     Flame flame;
     
     
@@ -33,9 +30,8 @@ public class Viewer extends Canvas implements Runnable{
     public Viewer (Flame flame){
       
         //
-        try{
-        System.out.println(imgfile);    
-        imagenfondo = ImageIO.read(new File(aux+imgfile+aux));
+        try{   
+        imagenfondo = ImageIO.read(new File(""));
         }catch(IOException e){
         System.out.println("Error al cargar la Imagen");
         }
@@ -45,12 +41,6 @@ public class Viewer extends Canvas implements Runnable{
         fuego.start();
         
     }
-    
-    //Setter Imgfile
-    
-    public void setImgfile(String imgfile){
-        this.imgfile = imgfile;
-    } 
 
     //Creamos el método Paint
     public void paint() {
@@ -107,6 +97,6 @@ public class Viewer extends Canvas implements Runnable{
         this.paint();        
 
         }
-    }
+    }  
 }
 

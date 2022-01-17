@@ -22,6 +22,7 @@ import javax.swing.JPanel;
  * @author David
  */
 public class MyFlame extends JFrame{
+    private String imgfile;
     Viewer viewer;
     Thread thread;
     Flame flame;
@@ -82,7 +83,6 @@ public class MyFlame extends JFrame{
         this.setVisible(true);
         
     }
-    
     public void setSPARKS(int sparks){
         flame.setSPARKS(sparks);
     }
