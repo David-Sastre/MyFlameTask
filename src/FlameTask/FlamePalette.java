@@ -21,6 +21,7 @@ public class FlamePalette {
 //    Constructor vacío
     public FlamePalette() {
         
+        
     
     }
 

@@ -25,10 +25,8 @@ public class Flame extends BufferedImage implements Runnable {
     private double increment = 0.9;
     private long speed = 70;
     private int imageType;
-    
-//Getters & Setters
-    
 
+//Getters & Setters
     public boolean isIsRunning() {
         return isRunning;
     }
@@ -68,7 +66,7 @@ public class Flame extends BufferedImage implements Runnable {
     public void setSpeed(long speed) {
         this.speed = speed;
     }
-    
+
     //Métodos
     public Flame(int width, int height, int imageType) {
         super(width, height, imageType);
@@ -88,41 +86,23 @@ public class Flame extends BufferedImage implements Runnable {
     //Creamos las Sparks
     public void createSparks() {
         System.out.println("Se crean las chispas");
-//        if(!isBlizzard){
-            for (int i = 0; i < matriz.length; i++) {
-                int aux = (int) (Math.random() * 400);
-                if (aux <= SPARKS) {
-                    matriz[i][matriz[0].length - 1] = 255;
-                }
+        for (int i = 0; i < matriz.length; i++) {
+            int aux = (int) (Math.random() * 400);
+            if (aux <= SPARKS) {
+                matriz[i][matriz.length - 1] = 255;
             }
-//        }else {
-//            for (int i = 0; i < matriz[0].length - 2; i++) {
-//                int aux = (int) (Math.random() * 300);
-//                if (aux <= SPARKS) {
-//                    matriz[i][matriz[0].length-1] = 255;
-//                }
-//            }
-//        }
+        }
     }
 
     //Creamos los puntos fríos
     public void createCool() {
         System.out.println("Se crean los puntos frios");
-//        if (!isBlizzard) {
-            for (int i = 0; i < matriz.length; i++) {
-                int aux = (int) (Math.random() * 400);
-                if (aux <= COOL) {
-                    matriz[i][matriz[0].length - 1] = 0;
-                }
+        for (int i = 0; i < matriz.length; i++) {
+            int aux = (int) (Math.random() * 400);
+            if (aux <= COOL) {
+                matriz[i][matriz.length - 1] = 0;
             }
-//        } else {
-//            for (int i = 0; i < matriz.length-1; i++) {
-//                int aux = (int) (Math.random() * 300);
-//                if (aux <= COOL) {
-//                    matriz[i][matriz[0].length - 1] = 0;
-//                }
-//            }
-//        }
+        }
     }
 
     //EvolveTemperature
@@ -152,7 +132,6 @@ public class Flame extends BufferedImage implements Runnable {
             for (int j = 0; j < matriz[i].length; j++) {
                 int p = this.getFlamePalette().getColor(matriz[i][j]);
                 this.setRGB(i, j, p);
-
             }
         }
     }

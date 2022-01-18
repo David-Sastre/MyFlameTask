@@ -22,7 +22,7 @@ import javax.swing.JPanel;
  * @author David
  */
 public class MyFlame extends JFrame{
-    private String imgfile;
+    private String filepath;
     Viewer viewer;
     Thread thread;
     Flame flame;
@@ -39,7 +39,7 @@ public class MyFlame extends JFrame{
     public MyFlame (){
         //Indicamos el nombre de la ventana
         super("Fuego");
-        flame = new Flame (600,600,1);
+        flame = new Flame (600,600,2);
         crearEstructura();
         //Iniciamos el hilo.
         thread = new Thread(viewer);
@@ -51,16 +51,17 @@ public class MyFlame extends JFrame{
     private void crearEstructura() {
         //creamos el layout de la ventana
         this.setLayout(new GridBagLayout());
-  
+        
+        GridBagConstraints gbc = new GridBagConstraints();
         //creamos el control panel
         controlPanel = new ControlPanel(this, viewer);
         //añadimos la altura y ancho minimo
         controlPanel.setMinimumSize(new Dimension(400,100));
         controlPanel.setPreferredSize(new Dimension(400,100));
         controlPanel.setMaximumSize(new Dimension(400, 100));
-        controlPanel.setBorder(BorderFactory.createLineBorder(Color.WHITE,5));
+        controlPanel.setBorder(BorderFactory.createLineBorder(Color.WHITE,4));
         //y lo añadimos al layout
-        GridBagConstraints gbc = new GridBagConstraints();
+        
         gbc.fill = GridBagConstraints.BOTH;
         gbc.gridx = 0;
         gbc.gridy = 0;
@@ -70,6 +71,7 @@ public class MyFlame extends JFrame{
         
         //creamos el viewer
         viewer = new Viewer(flame);
+//        viewer.setBackground(Color.black);
         //Añadimos el Viewer al JFrame
         gbc.gridx = 1;
         gbc.weightx = 0.8f;
@@ -79,6 +81,7 @@ public class MyFlame extends JFrame{
         //Indicamos las medidas del JFrame
         this.setSize(1000,800);
         this.setLocationRelativeTo(null);
+        
         //Hacemos visible el JFrame
         this.setVisible(true);
         
@@ -120,6 +123,10 @@ public class MyFlame extends JFrame{
     
     public long getSpeed(){
         return flame.getSpeed();
+    }
+    
+    public void setFilepath(String filepath){
+        this.viewer.setFilepath(filepath);
     }
 }
 
