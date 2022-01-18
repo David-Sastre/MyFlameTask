@@ -39,7 +39,7 @@ public class MyFlame extends JFrame{
     public MyFlame (){
         //Indicamos el nombre de la ventana
         super("Fuego");
-        flame = new Flame (600,600,2);
+        flame = new Flame (700,700,2);
         crearEstructura();
         //Iniciamos el hilo.
         thread = new Thread(viewer);
@@ -71,7 +71,6 @@ public class MyFlame extends JFrame{
         
         //creamos el viewer
         viewer = new Viewer(flame);
-//        viewer.setBackground(Color.black);
         //Añadimos el Viewer al JFrame
         gbc.gridx = 1;
         gbc.weightx = 0.8f;
@@ -79,9 +78,9 @@ public class MyFlame extends JFrame{
         this.add(viewer, gbc);
         
         //Indicamos las medidas del JFrame
-        this.setSize(1000,800);
+        this.setSize(1100,800);
         this.setLocationRelativeTo(null);
-        
+        this.setResizable(false);
         //Hacemos visible el JFrame
         this.setVisible(true);
         

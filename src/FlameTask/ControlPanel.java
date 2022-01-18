@@ -63,32 +63,32 @@ public class ControlPanel extends JPanel {
     private void addLabels() {
         titulo = new JLabel("Control Panel");
         titulo.setForeground(Color.WHITE);
-        titulo.setBounds(95, 0, 300, 80);
-        titulo.setFont(new Font("arial", 1, 24));
+        titulo.setBounds(115, 0, 300, 80);
+        titulo.setFont(new Font("calibri", 1, 24));
         this.add(titulo);
 
         sparks = new JLabel("Value of Sparks");
         sparks.setForeground(Color.WHITE);
-        sparks.setBounds(5, 200, 100, 80);
+        sparks.setBounds(45, 170, 100, 80);
         sparks.setFont(new Font("arial", 3, 12));
         this.add(sparks);
 
         cool = new JLabel("Value of Cool");
         cool.setForeground(Color.WHITE);
-        cool.setBounds(105, 200, 100, 80);
+        cool.setBounds(250, 170, 100, 80);
         cool.setFont(new Font("arial", 3, 12));
         this.add(cool);
 
         speed = new JLabel("Fire Pause");
         speed.setForeground(Color.WHITE);
-        speed.setBounds(5, 410, 75, 50);
+        speed.setBounds(165, 375, 75, 50);
         speed.setFont(new Font("arial", 3, 12));
         this.add(speed);
     }
 
     private void addButtons() {
         btn1 = new JButton();
-        btn1.setBounds(35, 100, 80, 80);
+        btn1.setBounds(55, 90, 80, 80);
         btn1.setBorder(null);
         btn1.setBackground(Color.DARK_GRAY);
         ImageIcon play = new ImageIcon("src/Images/play.png");
@@ -99,7 +99,7 @@ public class ControlPanel extends JPanel {
         this.add(btn1);
 
         btn2 = new JButton();
-        btn2.setBounds(125, 100, 80, 80);
+        btn2.setBounds(150, 90, 80, 80);
         btn2.setBorder(null);
         btn2.setBackground(Color.DARK_GRAY);
         ImageIcon pause = new ImageIcon("src/Images/pause.png");
@@ -110,7 +110,7 @@ public class ControlPanel extends JPanel {
         this.add(btn2);
 
         btn3 = new JButton();
-        btn3.setBounds(205, 550, 150, 50);
+        btn3.setBounds(115, 525, 150, 50);
         btn3.setBorder(null);
         btn3.setActionCommand("btn3");
         btn3.setText("Cambiar Fondo");
@@ -120,7 +120,7 @@ public class ControlPanel extends JPanel {
     
     private void addToggleButton(){
         blizzard = new JToggleButton("Viento");
-        blizzard.setBounds(215, 100, 80, 80);
+        blizzard.setBounds(245, 90, 80, 80);
         blizzard.setBorder(null);
         blizzard.setBackground(Color.DARK_GRAY);
         ImageIcon blizzar = new ImageIcon("src/Images/viento.png");
@@ -133,7 +133,7 @@ public class ControlPanel extends JPanel {
 
     private void addSliders() {
         sliderSparks = new JSlider(JSlider.VERTICAL, 0, 100, myflame.getSPARKS());
-        sliderSparks.setBounds(10, 250, 65, 150);
+        sliderSparks.setBounds(53, 220, 60, 150);
         sliderSparks.setInverted(false);
         sliderSparks.setMinorTickSpacing(10);
         sliderSparks.setMajorTickSpacing(25);
@@ -144,7 +144,7 @@ public class ControlPanel extends JPanel {
         this.add(sliderSparks);
 
         sliderCools = new JSlider(JSlider.VERTICAL, 0, 100, myflame.getCOOL());
-        sliderCools.setBounds(105, 250, 60, 150);
+        sliderCools.setBounds(260, 220, 60, 150);
         sliderCools.setInverted(false);
         sliderCools.setMinorTickSpacing(10);
         sliderCools.setMajorTickSpacing(25);
@@ -154,26 +154,14 @@ public class ControlPanel extends JPanel {
         this.add(sliderCools);
 
         sliderSpeed = new JSlider(JSlider.HORIZONTAL, 0, 100, (int) myflame.getSpeed());
-        sliderSpeed.setBounds(5, 450, 350, 50);
+        sliderSpeed.setBounds(40, 420, 300, 50);
         sliderSpeed.setInverted(false);
         sliderSpeed.setMinorTickSpacing(10);
         sliderSpeed.setMajorTickSpacing(25);
         sliderSpeed.setPaintTicks(true);
         sliderSpeed.setPaintLabels(true);
         sliderSpeed.addChangeListener(e);
-        this.add(sliderSpeed);
-        
-        colorRed = new JSlider(JSlider.HORIZONTAL, 0, 100, 0);
-        
-        colorRed.setInverted(false);
-        colorRed.setMinorTickSpacing(10);
-        colorRed.setMajorTickSpacing(25);
-        colorRed.setPaintTicks(true);
-        colorRed.setPaintLabels(true);
-        colorRed.addChangeListener(e);
-        this.add(colorRed);
-        
-        
+        this.add(sliderSpeed);   
     }
 
     private void FileChooser() {
@@ -186,7 +174,6 @@ public class ControlPanel extends JPanel {
 
         if (respuesta == JFileChooser.APPROVE_OPTION) {
             filepath = chooser.getSelectedFile().getPath();
-            System.out.println("PATH = "+ filepath);
             myflame.viewer.setFilepath(filepath);
         }
     }
@@ -197,7 +184,7 @@ public class ControlPanel extends JPanel {
         rVerde.setForeground(Color.GREEN);
         rVerde.setBackground(Color.DARK_GRAY);
         rVerde.addActionListener(e);
-        ImageIcon green = new ImageIcon("src/Images.fondoVerde.png");
+        ImageIcon green = new ImageIcon("src/Images/fuegoVerde.png");
         rVerde.setIcon(new ImageIcon(green.getImage().getScaledInstance(rVerde.
                 getWidth(), rVerde.getHeight(), Image.SCALE_SMOOTH)));
         
@@ -208,7 +195,7 @@ public class ControlPanel extends JPanel {
         rRojo.setBackground(Color.DARK_GRAY);
         rRojo.setSelected(true);
         rRojo.addActionListener(e);
-        ImageIcon red = new ImageIcon("src/Images/fuegofondo.jpg");
+        ImageIcon red = new ImageIcon("src/Images/fuegoRojo.png");
         rRojo.setIcon(new ImageIcon(red.getImage().getScaledInstance(rRojo.
                 getWidth(), rRojo.getHeight(), Image.SCALE_SMOOTH)));
         

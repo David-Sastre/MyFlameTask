@@ -24,7 +24,7 @@ public class Viewer extends Canvas implements Runnable {
     private BufferedImage imagenfondo;
     Graphics g;
     FlamePalette paleta;
-    private String filepath = "";
+    private String filepath = "src/Images/muerte.jpg";
     private boolean paletaVerde = false;
     private boolean paletaRoja = true;
     private boolean paletaAzul = false;
@@ -86,7 +86,6 @@ public class Viewer extends Canvas implements Runnable {
         try {
             imagenfondo = ImageIO.read(new File(this.getFilepath()));
         } catch (IOException e) {
-            System.out.println("Error al cargar la Imagen");
         }
     }
 
