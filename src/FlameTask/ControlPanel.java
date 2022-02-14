@@ -7,19 +7,19 @@ package FlameTask;
 
 import java.awt.Color;
 import java.awt.Font;
+import java.awt.GridBagLayout;
 import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.io.File;
 import javax.swing.BorderFactory;
 import javax.swing.ButtonGroup;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
+import javax.swing.JFileChooser;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
-import javax.swing.JSlider;
-import javax.swing.JFileChooser;
 import javax.swing.JRadioButton;
+import javax.swing.JSlider;
 import javax.swing.JToggleButton;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
@@ -29,18 +29,21 @@ import javax.swing.filechooser.FileNameExtensionFilter;
  *
  * @author David
  */
-public class ControlPanel extends JPanel {
+public class ControlPanel extends JPanel{
 
-    MyFlame myflame;
-    Viewer viewer;
+    private MyFlame myflame;
+    private Viewer viewer;
+    ConvolutionControlPanel convolutionControlPanel;
     JLabel titulo, sparks, cool, speed;
-    JButton btn1, btn2, btn3, btn4;
+    JButton btn0, btn1, btn2, btn3, btn4;
     JSlider sliderSparks, sliderCools, sliderSpeed, colorRed;
     JFileChooser chooser;
     JToggleButton blizzard;
     JRadioButton rVerde, rRojo, rAzul, rLila;
     newEvents e = new newEvents();
     String ruta, filepath;;
+
+    
     
 
     public ControlPanel(MyFlame myflame, Viewer viewer) {
@@ -87,6 +90,28 @@ public class ControlPanel extends JPanel {
     }
 
     private void addButtons() {
+        btn0 = new JButton("");
+        btn0.setBounds(346, 4, 50, 50);
+        ImageIcon drcha = new ImageIcon("src/Images/drcha.png");
+        btn0.setIcon(new ImageIcon(drcha.getImage().getScaledInstance(btn0.
+                getWidth(), btn0.getHeight(), Image.SCALE_SMOOTH)));
+        btn0.setBorder(null);
+        btn0.setBackground(null);
+        btn0.setActionCommand("btn0");
+        btn0.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                ControlPanel.this.removeAll();
+                convolutionControlPanel= new ConvolutionControlPanel(myflame, viewer);
+                convolutionControlPanel.setBounds(0, 0, 400, 800);
+                convolutionControlPanel.setBorder(BorderFactory.createLineBorder(Color.WHITE,4));
+                ControlPanel.this.add(convolutionControlPanel);
+                convolutionControlPanel.setVisible(true);
+                repaint();
+            }
+        });
+        this.add(btn0);
+        
         btn1 = new JButton();
         btn1.setBounds(55, 90, 80, 80);
         btn1.setBorder(null);
@@ -153,7 +178,7 @@ public class ControlPanel extends JPanel {
         sliderCools.addChangeListener(e);
         this.add(sliderCools);
 
-        sliderSpeed = new JSlider(JSlider.HORIZONTAL, 0, 100, (int) myflame.getSpeed());
+        sliderSpeed = new JSlider(JSlider.HORIZONTAL, 0, 100, 50);
         sliderSpeed.setBounds(40, 420, 300, 50);
         sliderSpeed.setInverted(false);
         sliderSpeed.setMinorTickSpacing(10);
@@ -237,7 +262,7 @@ public class ControlPanel extends JPanel {
         public void stateChanged(ChangeEvent e) {
             myflame.setSPARKS(sliderSparks.getValue());
             myflame.setCOOL(sliderCools.getValue());
-            myflame.setSpeed(sliderSpeed.getValue());
+            myflame.viewer.setSpeed(sliderSpeed.getValue());
         }
 
         @Override
@@ -286,3 +311,5 @@ public class ControlPanel extends JPanel {
         }
     }        
 }
+
+

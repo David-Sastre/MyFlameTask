@@ -10,44 +10,64 @@ import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.image.BufferStrategy;
 import java.awt.image.BufferedImage;
+import java.awt.image.ImageObserver;
 import java.io.File;
 import java.io.IOException;
 import javax.imageio.ImageIO;
-import javax.swing.JFileChooser;
+import javax.swing.JScrollPane;
 
 /**
  *
  * @author David
  */
 public class Viewer extends Canvas implements Runnable {
-
+    
+    private MyFlame myflame;
     private BufferedImage imagenfondo;
+    private BufferedImage imagencopia;
     Graphics g;
     FlamePalette paleta;
-    private String filepath = "src/Images/muerte.jpg";
+    private String filepath = "src/Images/luna.jpg";
     private boolean paletaVerde = false;
     private boolean paletaRoja = true;
     private boolean paletaAzul = false;
     private boolean paletaLila = false;
+    private boolean isRunning = true;
+    private long speed = 50;
     Flame flame;
+    Convolution convolution;
+//    FireConvolution fireconvolution;
+
 
     //Constructor Viewer
     public Viewer(Flame flame) {
-
+        this.setBackground(Color.BLACK);
+        convolution = new Convolution();
         //
         try {
             imagenfondo = ImageIO.read(new File(this.getFilepath()));
+            imagencopia = ImageIO.read(new File(this.getFilepath()));
+            System.out.println(imagencopia.getType());
         } catch (IOException e) {
             System.out.println("Error al cargar la Imagen");
         }
-
+        this.convolution.setCopia(imagencopia);
+        convolution.calculoPixel();
+        imagencopia = this.convolution.getCopia();
+//        this.fireconvolution = new FireConvolution (imagencopia.getWidth(), imagencopia.getHeight(), 1, myflame);
         this.flame = flame;
-        Thread fuego = new Thread(flame);
-        fuego.start();
-
+//        Thread fuego = new Thread(flame);
+//        fuego.start();
+//        Thread fire = new Thread(fireconvolution);
+//        fire.start();
     }
 
     //Setters y Getters
+
+    public BufferedImage getImagencopia() {
+        return imagencopia;
+    }
+    
     public void setPaletaVerde(boolean paletaVerde) {
         System.out.println("Cambiamos variable");
         this.paletaVerde = paletaVerde;
@@ -81,33 +101,57 @@ public class Viewer extends Canvas implements Runnable {
         this.paletaLila = paletaLila;
     }
 
+    public boolean isIsRunning() {
+        return isRunning;
+    }
+
+    public void setIsRunning(boolean isRunning) {
+        this.isRunning = isRunning;
+    }
+    public long getSpeed() {
+        return speed;
+    }
+
+    public void setSpeed(long speed) {
+        this.speed = speed;
+    }
+  
     //
     public void backgroundImage() {
         try {
             imagenfondo = ImageIO.read(new File(this.getFilepath()));
+            imagencopia = ImageIO.read(new File(this.getFilepath()));
         } catch (IOException e) {
         }
+        this.convolution.setCopia(imagencopia);
+        convolution.calculoPixel();
+        imagencopia = this.convolution.getCopia();
     }
 
     //Creamos el método Paint
     public void paint() {
-        BufferStrategy bs = this.getBufferStrategy();
-        g = bs.getDrawGraphics();
+        BufferStrategy bs = getBufferStrategy();
         if (bs == null) {
+            createBufferStrategy(2);
             return;
         }
+        Graphics g = bs.getDrawGraphics();
         if (g == null) {
             return;
         }
         //System.out.println("Se pinta la chimenea");
         this.backgroundImage();
-        g.drawImage(imagenfondo, 0, 0, this.getWidth(), this.getHeight(), null);
+        g.drawImage(imagenfondo.getScaledInstance(300, 300, 0), 0, 0, 300, 300, null);
+        g.drawImage(imagencopia.getScaledInstance(300, 300, 0), 300, 0, 300, 300, null);
         //System.out.println("Pintamos el fugo");
         //g.drawImage(fl,130,194,213,175,null);
-        g.drawImage(flame, 0, 0, this.getWidth(), this.getHeight(), null);
-
-        bs.show();
+        g.drawImage(flame.getScaledInstance(300, 300, 0), 600, 0, 300, 300, null);
+        g.drawImage(imagenfondo,0, 300, 400, 400, null);
+        g.drawImage(flame, 0,300,400,400, null);
         g.dispose();
+        bs.show();
+        
+        
     }
 
     public void setFlamePalette() {
@@ -215,12 +259,12 @@ public class Viewer extends Canvas implements Runnable {
     public void run() {
         this.setFlamePalette();
         //Creamos el BufferStrategy para que la imagen de la chimenea no aparezca.
-        createBufferStrategy(2);
+//        createBufferStrategy(2);
 
         while (true) {
 
             try {
-                Thread.sleep(70);
+                Thread.sleep(speed);
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
@@ -237,7 +281,9 @@ public class Viewer extends Canvas implements Runnable {
             } else if (paletaRoja) {
                 this.setFlamePalette();
             }
-            
+            if (isRunning){
+                flame.actualizar();
+            }
             this.paint();
 
         }

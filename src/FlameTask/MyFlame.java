@@ -11,9 +11,9 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
+import java.awt.image.BufferedImage;
 import javax.swing.BorderFactory;
 import javax.swing.JFrame;
-import javax.swing.JPanel;
 
 
 
@@ -24,9 +24,13 @@ import javax.swing.JPanel;
 public class MyFlame extends JFrame{
     private String filepath;
     Viewer viewer;
-    Thread thread;
-    Flame flame;
-    ControlPanel controlPanel;
+    private Thread thread;
+    private Flame flame;
+    private Convolution convolution;
+//    private FireConvolution fireconvolution;
+    private ControlPanel controlPanel;
+    private int width = 800;
+    private int height = 800;
     /**
      * @param args the command line arguments
      */
@@ -39,11 +43,12 @@ public class MyFlame extends JFrame{
     public MyFlame (){
         //Indicamos el nombre de la ventana
         super("Fuego");
-        flame = new Flame (700,700,2);
+        flame = new Flame (width, height, 2,this,convolution);
         crearEstructura();
         //Iniciamos el hilo.
         thread = new Thread(viewer);
         thread.start();
+        
         //Al cerrar el JFrame salimos de la aplicación.
         this.setDefaultCloseOperation(EXIT_ON_CLOSE);
     }
@@ -54,6 +59,7 @@ public class MyFlame extends JFrame{
         
         GridBagConstraints gbc = new GridBagConstraints();
         //creamos el control panel
+        
         controlPanel = new ControlPanel(this, viewer);
         //añadimos la altura y ancho minimo
         controlPanel.setMinimumSize(new Dimension(400,100));
@@ -78,7 +84,7 @@ public class MyFlame extends JFrame{
         this.add(viewer, gbc);
         
         //Indicamos las medidas del JFrame
-        this.setSize(1100,800);
+        this.setSize(1300,800);
         this.setLocationRelativeTo(null);
         this.setResizable(false);
         //Hacemos visible el JFrame
@@ -102,10 +108,10 @@ public class MyFlame extends JFrame{
     }
     
     public void paused (){
-        flame.setIsRunning(false);
+        viewer.setIsRunning(false);
     }
     public void resume (){
-        flame.setIsRunning(true);
+        viewer.setIsRunning(true);
     }
     
     public void blizzard (){
@@ -116,13 +122,13 @@ public class MyFlame extends JFrame{
         flame.setIsBlizzard(false);
     }
     
-    public void setSpeed(long speed){
-        flame.setSpeed(speed);
-    }
-    
-    public long getSpeed(){
-        return flame.getSpeed();
-    }
+//    public void setSpeed(long speed){
+//        viewer.setSpeed(speed);
+//    }
+//    
+//    public long getSpeed(){
+//        return viewer.getSpeed();
+//    }
     
     public void setFilepath(String filepath){
         this.viewer.setFilepath(filepath);
