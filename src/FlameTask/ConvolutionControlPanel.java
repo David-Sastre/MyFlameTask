@@ -68,7 +68,7 @@ public class ConvolutionControlPanel extends JPanel {
         });
         this.add(btn0);
         btn1 = new JButton();
-        btn1.setBounds(4, 60, 192, 75);
+        btn1.setBounds(4, 60, 196, 75);
         btn1.setBorder(null);
         btn1.setActionCommand("btn1");
         btn1.setText("Cambiar Fondo");
@@ -76,7 +76,7 @@ public class ConvolutionControlPanel extends JPanel {
         this.add(btn1);
 
         btn2 = new JButton();
-        btn2.setBounds(196, 60, 192, 75);
+        btn2.setBounds(200, 60, 196, 75);
         btn2.setBorder(null);
         btn2.setActionCommand("btn2");
         btn2.setText("Original");
@@ -84,7 +84,7 @@ public class ConvolutionControlPanel extends JPanel {
         this.add(btn2);
 
         btn3 = new JButton();
-        btn3.setBounds(4, 135, 192, 75);
+        btn3.setBounds(4, 135, 196, 75);
         btn3.setBorder(null);
         btn3.setActionCommand("btn3");
         btn3.setText("Bordes");
@@ -92,7 +92,7 @@ public class ConvolutionControlPanel extends JPanel {
         this.add(btn3);
 
         btn4 = new JButton();
-        btn4.setBounds(196, 135, 192, 75);
+        btn4.setBounds(200, 135, 196, 75);
         btn4.setBorder(null);
         btn4.setActionCommand("btn4");
         btn4.setText("Nitidez");
@@ -100,7 +100,7 @@ public class ConvolutionControlPanel extends JPanel {
         this.add(btn4);
 
         btn5 = new JButton();
-        btn5.setBounds(4, 300, 192, 75);
+        btn5.setBounds(4, 210, 196, 75);
         btn5.setBorder(null);
         btn5.setActionCommand("btn5");
         btn5.setText("Borde vertical");
@@ -108,7 +108,7 @@ public class ConvolutionControlPanel extends JPanel {
         this.add(btn5);
 
         btn6 = new JButton();
-        btn6.setBounds(4, 375, 192, 75);
+        btn6.setBounds(200, 210, 196, 75);
         btn6.setBorder(null);
         btn6.setActionCommand("btn6");
         btn6.setText("Repujado");
@@ -116,7 +116,7 @@ public class ConvolutionControlPanel extends JPanel {
         this.add(btn6);
 
         btn7 = new JButton();
-        btn7.setBounds(4, 450, 192, 75);
+        btn7.setBounds(4, 285, 196, 75);
         btn7.setBorder(null);
         btn7.setActionCommand("btn7");
         btn7.setText("Enfoque");
@@ -124,7 +124,7 @@ public class ConvolutionControlPanel extends JPanel {
         this.add(btn7);
 
         btn8 = new JButton();
-        btn8.setBounds(4, 525, 192, 75);
+        btn8.setBounds(200, 285, 196, 75);
         btn8.setBorder(null);
         btn8.setActionCommand("btn8");
         btn8.setText("Desenfoque");
@@ -132,7 +132,7 @@ public class ConvolutionControlPanel extends JPanel {
         this.add(btn8);
 
         btn9 = new JButton();
-        btn9.setBounds(4, 600, 192, 75);
+        btn9.setBounds(4, 360, 196, 75);
         btn9.setBorder(null);
         btn9.setActionCommand("btn9");
         btn9.setText("Personalizado");
@@ -143,47 +143,47 @@ public class ConvolutionControlPanel extends JPanel {
     private void addTextField() {
         tf1 = new JTextField();
         tf1.setText(String.valueOf(0));
-        tf1.setBounds(20, 675, 40, 30);
+        tf1.setBounds(20, 475, 40, 30);
         this.add(tf1);
         
         tf2 = new JTextField();
         tf2.setText(String.valueOf(0));
-        tf2.setBounds(80, 675,40, 30);
+        tf2.setBounds(80, 475,40, 30);
         this.add(tf2);
         
         tf3 = new JTextField();
         tf3.setText(String.valueOf(0));
-        tf3.setBounds(140, 675, 40, 30);
+        tf3.setBounds(140, 475, 40, 30);
         this.add(tf3);
         
         tf4 = new JTextField();
         tf4.setText(String.valueOf(0));
-        tf4.setBounds(20, 710, 40, 30);
+        tf4.setBounds(20, 510, 40, 30);
         this.add(tf4);
         
         tf5 = new JTextField();
         tf5.setText(String.valueOf(0));
-        tf5.setBounds(80, 710, 40, 30);
+        tf5.setBounds(80, 510, 40, 30);
         this.add(tf5);
         
         tf6 = new JTextField();
         tf6.setText(String.valueOf(0));
-        tf6.setBounds(140, 710, 40, 30);
+        tf6.setBounds(140, 510, 40, 30);
         this.add(tf6);
         
         tf7 = new JTextField();
         tf7.setText(String.valueOf(0));
-        tf7.setBounds(20, 745, 40, 30);
+        tf7.setBounds(20, 545, 40, 30);
         this.add(tf7);
         
         tf8 = new JTextField();
         tf8.setText(String.valueOf(0));
-        tf8.setBounds(80, 745, 40, 30);
+        tf8.setBounds(80, 545, 40, 30);
         this.add(tf8);
         
         tf9 = new JTextField();
         tf9.setText(String.valueOf(0));
-        tf9.setBounds(140, 745, 40, 30); 
+        tf9.setBounds(140, 545, 40, 30); 
         this.add(tf9);     
     }
 
@@ -213,7 +213,9 @@ public class ConvolutionControlPanel extends JPanel {
 
                 case "btn2":
                     myflame.viewer.convolution.setKernelSelected(myflame.viewer.convolution.getKernelInicial());
+                    myflame.viewer.flame.cleanFlame();
                     myflame.viewer.flame.setConvoluted(false);
+                    
                     break;
 
                 case "btn3":

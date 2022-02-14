@@ -29,8 +29,8 @@ public class MyFlame extends JFrame{
     private Convolution convolution;
 //    private FireConvolution fireconvolution;
     private ControlPanel controlPanel;
-    private int width = 800;
-    private int height = 800;
+    private int width = 400;
+    private int height = 400;
     /**
      * @param args the command line arguments
      */

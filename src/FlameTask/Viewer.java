@@ -145,7 +145,10 @@ public class Viewer extends Canvas implements Runnable {
         g.drawImage(imagencopia.getScaledInstance(300, 300, 0), 300, 0, 300, 300, null);
         //System.out.println("Pintamos el fugo");
         //g.drawImage(fl,130,194,213,175,null);
+        g.setColor(Color.BLACK);
+        g.fillRect(600, 0, 300, 300);
         g.drawImage(flame.getScaledInstance(300, 300, 0), 600, 0, 300, 300, null);
+        
         g.drawImage(imagenfondo,0, 300, 400, 400, null);
         g.drawImage(flame, 0,300,400,400, null);
         g.dispose();
@@ -258,6 +261,7 @@ public class Viewer extends Canvas implements Runnable {
     @Override
     public void run() {
         this.setFlamePalette();
+        
         //Creamos el BufferStrategy para que la imagen de la chimenea no aparezca.
 //        createBufferStrategy(2);
 
@@ -285,7 +289,6 @@ public class Viewer extends Canvas implements Runnable {
                 flame.actualizar();
             }
             this.paint();
-
         }
     }
 }
