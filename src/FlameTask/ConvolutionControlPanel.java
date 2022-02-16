@@ -6,6 +6,7 @@
 package FlameTask;
 
 import java.awt.Color;
+import java.awt.Font;
 import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -13,8 +14,12 @@ import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFileChooser;
+import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JSlider;
 import javax.swing.JTextField;
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
 import javax.swing.filechooser.FileNameExtensionFilter;
 
 /**
@@ -28,6 +33,8 @@ public class ConvolutionControlPanel extends JPanel {
     JButton btn0, btn1, btn2, btn3, btn4, btn5, btn6, btn7, btn8, btn9;
     JFileChooser chooser;
     JTextField tf1, tf2, tf3, tf4, tf5, tf6, tf7, tf8, tf9;
+    JLabel luminance, divisor;
+    JSlider brightness, sliderdivisor;
     newEvents e = new newEvents();
     String ruta, filepath;
 
@@ -43,6 +50,8 @@ public class ConvolutionControlPanel extends JPanel {
     private void initComponents() {
         addButtons();
         addTextField();
+        addLabels();
+        addSlider();
     }
 
     private void addButtons() {
@@ -143,48 +152,82 @@ public class ConvolutionControlPanel extends JPanel {
     private void addTextField() {
         tf1 = new JTextField();
         tf1.setText(String.valueOf(0));
-        tf1.setBounds(20, 475, 40, 30);
+        tf1.setBounds(20, 450, 40, 30);
         this.add(tf1);
         
         tf2 = new JTextField();
         tf2.setText(String.valueOf(0));
-        tf2.setBounds(80, 475,40, 30);
+        tf2.setBounds(80, 450,40, 30);
         this.add(tf2);
         
         tf3 = new JTextField();
         tf3.setText(String.valueOf(0));
-        tf3.setBounds(140, 475, 40, 30);
+        tf3.setBounds(140, 450, 40, 30);
         this.add(tf3);
         
         tf4 = new JTextField();
         tf4.setText(String.valueOf(0));
-        tf4.setBounds(20, 510, 40, 30);
+        tf4.setBounds(20, 485, 40, 30);
         this.add(tf4);
         
         tf5 = new JTextField();
         tf5.setText(String.valueOf(0));
-        tf5.setBounds(80, 510, 40, 30);
+        tf5.setBounds(80, 485, 40, 30);
         this.add(tf5);
         
         tf6 = new JTextField();
         tf6.setText(String.valueOf(0));
-        tf6.setBounds(140, 510, 40, 30);
+        tf6.setBounds(140, 485, 40, 30);
         this.add(tf6);
         
         tf7 = new JTextField();
         tf7.setText(String.valueOf(0));
-        tf7.setBounds(20, 545, 40, 30);
+        tf7.setBounds(20, 520, 40, 30);
         this.add(tf7);
         
         tf8 = new JTextField();
         tf8.setText(String.valueOf(0));
-        tf8.setBounds(80, 545, 40, 30);
+        tf8.setBounds(80, 520, 40, 30);
         this.add(tf8);
         
         tf9 = new JTextField();
         tf9.setText(String.valueOf(0));
-        tf9.setBounds(140, 545, 40, 30); 
+        tf9.setBounds(140, 520, 40, 30); 
         this.add(tf9);     
+    }
+    private void addLabels() {
+        luminance = new JLabel("Pixels Flame");
+        luminance.setForeground(Color.WHITE);
+        luminance.setBounds(155, 565, 100, 20);
+        luminance.setFont(new Font("calibri", 1, 16));
+        this.add(luminance);
+        
+        divisor = new JLabel("Divisor");
+        divisor.setForeground(Color.WHITE);
+        divisor.setBounds(165, 650, 100, 20);
+        divisor.setFont(new Font("calibri", 1, 16));
+        this.add(divisor);
+    }
+    
+    private void addSlider(){
+        brightness = new JSlider(JSlider.HORIZONTAL, 0, 250, (int) myflame.viewer.flame.getBrightness());
+        brightness.setBounds(45, 585, 300, 50);
+        brightness.setInverted(false);
+        brightness.setMinorTickSpacing(10);
+        brightness.setMajorTickSpacing(25);
+        brightness.setPaintTicks(true);
+        brightness.setPaintLabels(true);
+        brightness.addChangeListener(e);
+        this.add(brightness); 
+        
+        sliderdivisor = new JSlider(JSlider.HORIZONTAL, 1, 10, (int) myflame.viewer.convolution.getDivisor());
+        sliderdivisor.setBounds(45, 670, 300, 50);
+        sliderdivisor.setInverted(false);
+        sliderdivisor.setMajorTickSpacing(1);
+        sliderdivisor.setPaintTicks(true);
+        sliderdivisor.setPaintLabels(true);
+        sliderdivisor.addChangeListener(e);
+        this.add(sliderdivisor); 
     }
 
     private void FileChooser() {
@@ -202,7 +245,7 @@ public class ConvolutionControlPanel extends JPanel {
     }
 
     //Revisar Eventos están generados a partir de Statics
-    private class newEvents implements ActionListener {
+    private class newEvents implements ChangeListener, ActionListener {
 
         @Override
         public void actionPerformed(ActionEvent e) {
@@ -263,6 +306,12 @@ public class ConvolutionControlPanel extends JPanel {
                     myflame.viewer.flame.setConvoluted(true);
                     break;
             }
+        }
+
+        @Override
+        public void stateChanged(ChangeEvent e) {
+            myflame.viewer.flame.setBrightness(brightness.getValue());
+            myflame.viewer.convolution.setDivisor(sliderdivisor.getValue());
         }
     }
 }

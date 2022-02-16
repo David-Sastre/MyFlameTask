@@ -21,6 +21,7 @@ public class Convolution {
     int[][] conv;
     int pixel;
     int num1, num2, num3, num4, num5, num6, num7, num8, num9;
+    
     private int [][] kernelInicial = {
         {0, 0, 0},
         {0, 1, 0},
@@ -67,9 +68,9 @@ public class Convolution {
         {0,  0, 0},
     };
     
-    
-    
     private int [][] kernelSelected = kernelInicial;
+    
+    private int divisor = sumKernel();
     
     
     //Constructor vacio
@@ -138,6 +139,15 @@ public class Convolution {
     public void setPersonalizado(int[][] personalizado) {
         this.personalizado = personalizado;
     }
+
+    public int getDivisor() {
+        return divisor;
+    }
+
+    public void setDivisor(int divisor) {
+        this.divisor = divisor;
+    }
+    
     
 
     //Métodos
@@ -162,6 +172,22 @@ public class Convolution {
             }
         }
         return conv;
+    }
+    
+    private int sumKernel() {
+        int suma = 0;
+        for (int i = 0; i < kernelSelected.length; i++) {
+            for (int j = 0; j < kernelSelected.length; j++) {
+
+                suma += kernelSelected[i][j];
+            }
+
+        }
+        if (suma <= 0) {
+            suma = 1;
+        }
+        divisor = suma;
+        return divisor;
     }
 
     public void calculoPixel() {
@@ -200,10 +226,9 @@ public class Convolution {
                         + (B[x - 1][y + 1] * (kernelSelected[0][2]))
                         + (B[x][y + 1] * (kernelSelected[1][2]))
                         + (B[x + 1][y + 1] * (kernelSelected[2][2])));
-
-                reds = (int) (reds / sumKernel());
-                greens = (int) (greens / sumKernel());
-                blues = (int) (blues / sumKernel());
+                reds = (int) (reds / divisor);
+                greens = (int) (greens / divisor);
+                blues = (int) (blues / divisor);
                
                 if (reds < 0) {
                     reds = 0;
@@ -224,20 +249,5 @@ public class Convolution {
                 copia.setRGB(x, y, new Color(rgb).getRGB());
             }
         }
-    }
-
-    private int sumKernel() {
-        int sum = 0;
-        for (int i = 0; i < kernelSelected.length; i++) {
-            for (int j = 0; j < kernelSelected.length; j++) {
-
-                sum += kernelSelected[i][j];
-            }
-
-        }
-        if (sum <= 0) {
-            sum = 1;
-        }
-        return sum;
-    }
+    }  
 }

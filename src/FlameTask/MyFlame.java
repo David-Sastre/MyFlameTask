@@ -11,7 +11,6 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
-import java.awt.image.BufferedImage;
 import javax.swing.BorderFactory;
 import javax.swing.JFrame;
 
@@ -26,11 +25,11 @@ public class MyFlame extends JFrame{
     Viewer viewer;
     private Thread thread;
     private Flame flame;
+    private FlameBase flamebase;
     private Convolution convolution;
-//    private FireConvolution fireconvolution;
     private ControlPanel controlPanel;
-    private int width = 400;
-    private int height = 400;
+    private int width = 600;
+    private int height = 600;
     /**
      * @param args the command line arguments
      */
@@ -44,6 +43,7 @@ public class MyFlame extends JFrame{
         //Indicamos el nombre de la ventana
         super("Fuego");
         flame = new Flame (width, height, 2,this,convolution);
+        flamebase =  new FlameBase (width, height, 1, this, convolution);
         crearEstructura();
         //Iniciamos el hilo.
         thread = new Thread(viewer);
@@ -76,7 +76,7 @@ public class MyFlame extends JFrame{
         this.add(controlPanel, gbc);
         
         //creamos el viewer
-        viewer = new Viewer(flame);
+        viewer = new Viewer(flame, flamebase);
         //Añadimos el Viewer al JFrame
         gbc.gridx = 1;
         gbc.weightx = 0.8f;
@@ -93,6 +93,7 @@ public class MyFlame extends JFrame{
     }
     public void setSPARKS(int sparks){
         flame.setSPARKS(sparks);
+        flamebase.setSPARKS(sparks);
     }
     
     public int getSPARKS(){
@@ -101,6 +102,7 @@ public class MyFlame extends JFrame{
     
     public void setCOOL(int cool){
         flame.setCOOL(cool);
+        flamebase.setCOOL(cool);
     }
     
     public int getCOOL(){
@@ -116,19 +118,14 @@ public class MyFlame extends JFrame{
     
     public void blizzard (){
         flame.setIsBlizzard(true);
+        flamebase.setIsBlizzard(true);
+        
     }
     
     public void notBlizzard (){
         flame.setIsBlizzard(false);
+        flamebase.setIsBlizzard(false);
     }
-    
-//    public void setSpeed(long speed){
-//        viewer.setSpeed(speed);
-//    }
-//    
-//    public long getSpeed(){
-//        return viewer.getSpeed();
-//    }
     
     public void setFilepath(String filepath){
         this.viewer.setFilepath(filepath);

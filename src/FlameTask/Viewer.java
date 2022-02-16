@@ -35,19 +35,19 @@ public class Viewer extends Canvas implements Runnable {
     private boolean isRunning = true;
     private long speed = 50;
     Flame flame;
+    FlameBase flamebase;
     Convolution convolution;
 //    FireConvolution fireconvolution;
 
 
     //Constructor Viewer
-    public Viewer(Flame flame) {
+    public Viewer(Flame flame, FlameBase flamebase) {
         this.setBackground(Color.BLACK);
         convolution = new Convolution();
         //
         try {
             imagenfondo = ImageIO.read(new File(this.getFilepath()));
             imagencopia = ImageIO.read(new File(this.getFilepath()));
-            System.out.println(imagencopia.getType());
         } catch (IOException e) {
             System.out.println("Error al cargar la Imagen");
         }
@@ -56,6 +56,7 @@ public class Viewer extends Canvas implements Runnable {
         imagencopia = this.convolution.getCopia();
 //        this.fireconvolution = new FireConvolution (imagencopia.getWidth(), imagencopia.getHeight(), 1, myflame);
         this.flame = flame;
+        this.flamebase = flamebase;
 //        Thread fuego = new Thread(flame);
 //        fuego.start();
 //        Thread fire = new Thread(fireconvolution);
@@ -115,6 +116,11 @@ public class Viewer extends Canvas implements Runnable {
     public void setSpeed(long speed) {
         this.speed = speed;
     }
+
+    public void setFlamebase(FlameBase flamebase) {
+        this.flamebase = flamebase;
+    }
+    
   
     //
     public void backgroundImage() {
@@ -139,16 +145,15 @@ public class Viewer extends Canvas implements Runnable {
         if (g == null) {
             return;
         }
-        //System.out.println("Se pinta la chimenea");
+        
         this.backgroundImage();
         g.drawImage(imagenfondo.getScaledInstance(300, 300, 0), 0, 0, 300, 300, null);
         g.drawImage(imagencopia.getScaledInstance(300, 300, 0), 300, 0, 300, 300, null);
-        //System.out.println("Pintamos el fugo");
-        //g.drawImage(fl,130,194,213,175,null);
+        
         g.setColor(Color.BLACK);
         g.fillRect(600, 0, 300, 300);
-        g.drawImage(flame.getScaledInstance(300, 300, 0), 600, 0, 300, 300, null);
-        
+        g.drawImage(flamebase.getScaledInstance(300, 300, 0), 600, 0, 300, 300, null);
+//        g.drawImage(flame.getScaledInstance(300, 300, 0), 600, 0, 300, 300, null);
         g.drawImage(imagenfondo,0, 300, 400, 400, null);
         g.drawImage(flame, 0,300,400,400, null);
         g.dispose();
@@ -181,6 +186,7 @@ public class Viewer extends Canvas implements Runnable {
         paleta.createPalette();
 
         this.flame.setFlamePalette(paleta);
+        this.flamebase.setFlamePalette(paleta);
     }
 
     public void setFlamePaletteBlue() {
@@ -206,6 +212,7 @@ public class Viewer extends Canvas implements Runnable {
         paleta.createPalette();
 
         this.flame.setFlamePalette(paleta);
+        this.flamebase.setFlamePalette(paleta);
     }
 
     public void setFlamePaletteGreen() {
@@ -227,6 +234,7 @@ public class Viewer extends Canvas implements Runnable {
         paleta.createPalette();
 
         this.flame.setFlamePalette(paleta);
+        this.flamebase.setFlamePalette(paleta);
     }
 
     public void setFlamePalettePurple() {
@@ -248,6 +256,7 @@ public class Viewer extends Canvas implements Runnable {
         paleta.createPalette();
 
         this.flame.setFlamePalette(paleta);
+        this.flamebase.setFlamePalette(paleta);
     }
 
     public String getFilepath() {
@@ -287,6 +296,7 @@ public class Viewer extends Canvas implements Runnable {
             }
             if (isRunning){
                 flame.actualizar();
+                flamebase.actualizar();
             }
             this.paint();
         }

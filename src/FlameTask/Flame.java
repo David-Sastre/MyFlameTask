@@ -20,16 +20,17 @@ public class Flame extends BufferedImage{
     
     private MyFlame myflame;
     private Convolution convolution;
-    private int[][] matriz;
+    int[][] matriz;
     private int [][] matrizConv;
     private FlamePalette flamePalette;
     boolean isBlizzard = false;
-    private int SPARKS = 50;
+    int SPARKS = 50;
     int COOL = 55;
     double increment = 0.9;
-    
+    private float lum;
     private int imageType;
-    private float brightness;
+    private float pixelspint = 150f;
+    private float brightness = pixelspint;
     private boolean convoluted;
 
 //Getters & Setters
@@ -59,8 +60,14 @@ public class Flame extends BufferedImage{
         this.COOL = COOL;
     }
 
-    
+    public float getBrightness() {
+        return brightness;
+    }
 
+    public void setBrightness(float brightness) {
+        this.brightness = brightness;
+    }
+    
     public boolean isConvoluted() {
         return convoluted;
     }
@@ -98,7 +105,7 @@ public class Flame extends BufferedImage{
     public void createSparks() {
         //        System.out.println("Se crean las chispas");
         for (int i = 0; i < matriz.length; i++) {
-            int aux = (int) (Math.random() * 400);
+            int aux = (int) (Math.random() * 99);
             if (aux <= SPARKS) {
                 matriz[i][matriz.length - 1] = 255;
             }
@@ -106,13 +113,13 @@ public class Flame extends BufferedImage{
     }
     
     public void createConvsSparks(int i, int j) {
-        int aux = (int) (Math.random() * 200);
+        int aux = (int) (Math.random() * 99);
             if (aux <= SPARKS) {
                 matrizConv[i][j] = 255;
         }
     }
     
-    public void createSparksConvoluted() {
+    public void findSparksConvoluted() {
         matrizConv = new int [myflame.viewer.getImagencopia().getWidth()][myflame.viewer.getImagencopia().getHeight()];
         int red = 0;
         int green = 0;
@@ -122,8 +129,8 @@ public class Flame extends BufferedImage{
                 red = new Color(myflame.viewer.convolution.getCopia().getRGB(i, j)).getRed();
                 green = new Color(myflame.viewer.convolution.getCopia().getRGB(i, j)).getGreen();
                 blue = new Color(myflame.viewer.convolution.getCopia().getRGB(i, j)).getBlue();
-                brightness = (red * 0.2116f + green * 0.7152f + blue * 0.0722f);
-                if (brightness > 50) {
+                lum = (red * 0.2116f + green * 0.7152f + blue * 0.0722f);
+                if (lum > brightness) {
                     createConvsSparks(i,j);
                     createCoolConv(i,j);
                 }
@@ -134,7 +141,7 @@ public class Flame extends BufferedImage{
     //Creamos los puntos fríos
     public void createCool() {
         for (int i = 0; i < matriz.length; i++) {
-            int aux = (int) (Math.random() * 400);
+            int aux = (int) (Math.random() * 99);
             if (aux <= COOL) {
                 matriz[i][matriz.length - 1] = 0;
             }
@@ -143,9 +150,9 @@ public class Flame extends BufferedImage{
     
     public void createCoolConv (int i, int j){
 //        System.out.println("creamos ountos frios");
-        int aux = (int) (Math.random() * 400);
-                if (aux <= COOL && matrizConv[i][j]==255) {
-                    matrizConv[i][j] = 255;
+        int aux = (int) (Math.random() * 99);
+                if (aux <= COOL) {
+                    matrizConv[i][j] = 0;
                 }
     }
 
@@ -172,21 +179,25 @@ public class Flame extends BufferedImage{
      public void EvolveTemperatureConv() {
         if (!isBlizzard) {
 //           System.out.println("Evolución del fuego");
-            for (int i = 1; i < matrizConv.length - 1; i++) {
-                for (int j = matrizConv[0].length - 2; j >= 0; j--){
+             for (int j = matrizConv[0].length - 2; j >= 1; j--) {
+                for (int i = 1; i < matrizConv.length-1; i++) {
 //                    System.out.println("b");
 //                    System.out.print(matrizConv[i][j] + " - ");
-                    matrizConv[i][j] = (int) ((((matrizConv[i][j + 1]*1.5) + (matrizConv[i + 1][j + 1]*1.2)
-                            + (matrizConv[i - 1][j + 1]*1.2) + (matrizConv[i - 1][j]*1.2) + (matrizConv[i + 1][j]*1.2)
-                            + (matrizConv[i][j]*1.5)) /6));
-                    int aux = (int) (Math.random() * 100);
-//                    if (aux < 40){
-//                        matrizConv[i][j] = matriz[i-1][j];
-//                    }
+                    matrizConv[i][j] = (int) (((
+                              (matrizConv[i][j + 1]    )
+                            + (matrizConv[i][j]        )
+                            + (matrizConv[i][j - 1]    )
+                            + (matrizConv[i+1][j]      )
+                            + (matrizConv[i-1][j]      )
+                            + (matrizConv[i+1][j+1]    )
+                            + (matrizConv[i+1][j-1]    )
+                            + (matrizConv[i-1][j+1]    )
+                            + (matrizConv[i-1][j-1]    )
+                            )/3.75) * increment
+                    );
                      if (matrizConv [i][j]> 255){
                         matrizConv [i][j] = 255;
                     }
-//                    System.out.print(matrizConv[i][j]+" - " + "\n");
                 }
             }
         } else {
@@ -195,7 +206,10 @@ public class Flame extends BufferedImage{
 //                         System.out.println("a");
                     matrizConv[i][j] = (int) ((matrizConv[i][j + 1] 
                     + matrizConv[i + 1][j + 1] + matrizConv[i - 1][j + 1]
-                    + matrizConv[i - 1][j] + matrizConv[i][j]) / 5);
+                    + matrizConv[i - 1][j] + matrizConv[i][j]) / 3.25);
+                    if (matrizConv [i][j]> 255){
+                        matrizConv [i][j] = 255;
+                    }
                 }
             }
         }
@@ -247,9 +261,7 @@ public class Flame extends BufferedImage{
         
         if (convoluted){
             //Sparks
-            this.createSparksConvoluted();
-            //CreateCool
-//            this.createCoolConv();
+            this.findSparksConvoluted();
             //EvolveTemperature
             this.EvolveTemperatureConv();
             //CreateFlameImage
